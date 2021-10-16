@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
-// use App\Models\Type;
+use App\Models\Contact;
 
 class CompanyController extends Controller
 {
@@ -26,8 +26,8 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        // $companies=Company::all();
-        return view("company.create");
+        $contacts=Contact::all();
+        return view("company.create", ["contacts"=>$contacts]);
     }
 
     /**
@@ -45,7 +45,7 @@ class CompanyController extends Controller
             //dešinėj pusėj input laukelio vardas, kurį suteikėme input formoj
             //tas pats, kas $GET["author_name"]
             $company->description = $request->company_description;
-
+            $company->contact_id = $request->company_contact_id;
             $company->logo = $request->company_logo;
 
             $company ->save(); //insert į duomenų bazę
@@ -61,6 +61,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
+
         return view('company.show', ['company' => $company]);
     }
 
@@ -73,8 +74,8 @@ class CompanyController extends Controller
     public function edit(Company $company)
     {
         {
-            // $companies=Company::all();
-            return view("company.edit", ["company"=>$company]);
+            $contacts=Contact::all();
+            return view("company.edit", ["company"=>$company, "contacts"=>$contacts]);
         }
     }
 
@@ -91,6 +92,7 @@ class CompanyController extends Controller
             $company->title = $request->company_title;
             $company->description = $request->company_description;
             $company->logo = $request->company_logo;
+            $company->contact_id = $request->company_contact_id;
             $company ->save();
             return redirect()->route("company.index");
 
@@ -104,6 +106,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        $company->delete();
+        return redirect()->route("company.index");
     }
 }
