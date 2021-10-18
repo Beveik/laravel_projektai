@@ -12,4 +12,8 @@ class Company extends Model
     public function CompanyContact(){
         return $this->belongsTo('App\Models\Contact', 'contact_id', 'id');
     }
+    public function CompanyTypes() {
+        return $this->hasMany('App\Models\Type', 'company_id', 'id');
+
+    }
 }

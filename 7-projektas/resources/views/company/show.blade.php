@@ -8,8 +8,8 @@
 
 <p>{{$company->id}}. {{$company->title}}</p>
 <p>{{$company->description}}</p>
-<p><img src="{{$company->logo}}"></p>>
+<p><img src="{{$company->logo}}"></p>
 
 </div>
-</div>
+
 @endsection

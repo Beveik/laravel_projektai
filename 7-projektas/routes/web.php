@@ -37,6 +37,16 @@ Route::prefix('companies')->group(function () {
     Route::get('show/{company}', 'App\Http\Controllers\CompanyController@show')->name('company.show')->middleware("auth");
 });
 
+Route::prefix('contacts')->group(function () {
+
+    Route::get('','App\Http\Controllers\ContactController@index')->name('contact.index')->middleware("auth");
+    Route::get('create', 'App\Http\Controllers\ContactController@create')->name('contact.create')->middleware("auth");
+    Route::post('store', 'App\Http\Controllers\ContactController@store')->name('contact.store')->middleware("auth");
+    Route::get('edit/{contact}', 'App\Http\Controllers\ContactController@edit')->name('contact.edit')->middleware("auth");
+    Route::post('update/{contact}', 'App\Http\Controllers\ContactController@update')->name('contact.update')->middleware("auth");
+    Route::post('delete/{contact}', 'App\Http\Controllers\ContactController@destroy' )->name('contact.destroy')->middleware("auth");
+    Route::get('show/{contact}', 'App\Http\Controllers\ContactController@show')->name('contact.show')->middleware("auth");
+});
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

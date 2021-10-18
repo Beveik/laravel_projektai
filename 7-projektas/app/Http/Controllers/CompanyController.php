@@ -38,7 +38,7 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        {
+
             $company= new Company;
             $company->title = $request->company_title;
             //kairėj stulpelio pavadinimas
@@ -49,8 +49,8 @@ class CompanyController extends Controller
             $company->logo = $request->company_logo;
 
             $company ->save(); //insert į duomenų bazę
-            return redirect()->route("company.index");
-        }
+            return redirect()->route("company.index")->with('success_message','Kompanija sėkmingai pridėta');
+
     }
 
     /**
@@ -94,7 +94,7 @@ class CompanyController extends Controller
             $company->logo = $request->company_logo;
             $company->contact_id = $request->company_contact_id;
             $company ->save();
-            return redirect()->route("company.index");
+            return redirect()->route("company.index")->with('success_message','Kompanija sėkmingai pataisyta');
 
     }
 
@@ -106,7 +106,12 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
+        $types_count = $company->CompanyTypes->count(); //gausiu knygu skaiciu
+        if($types_count!=0) {
+            return redirect()->route("company.index")->with('error_message','Ištrinti negalima, nes kompanija turi priklausančių tipų');
+        }
+
         $company->delete();
-        return redirect()->route("company.index");
+        return redirect()->route("company.index")->with('success_message','Kompanija sėkmingai ištrinta');
     }
 }

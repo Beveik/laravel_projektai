@@ -29,7 +29,20 @@
                             </textarea>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="company_contact_id" class="col-md-4 col-form-label text-md-right">{{ __('Contact') }}</label>
 
+                            <div class="col-md-6">
+                                {{-- <input id="name" type="text" class="form-control" name="attendGroup_school_id" value="{{$attendGroup->school_id}}" required autofocus> --}}
+                                <select class="form-control" name="company_contact_id">
+
+
+                                    @foreach($contacts as $contact)
+                                    <option value="{{$contact->id}}" @if($contact->id==$company->contact_id) selected @endif >{{$contact->title}}</option>
+                                    @endforeach
+            </select>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="company_logo" class="col-md-4 col-form-label text-md-right">{{ __('Company logo') }}</label>
 

@@ -5,6 +5,7 @@
 
 <div class="container">
     <h1>Types</h1>
+    <a class="btn btn-primary" href="{{route('type.create')}}">Create</a><br>
 <table class="table table-striped">
     <tr>
         <th>ID</th>
@@ -13,7 +14,11 @@
         <th>Company</th>
         <th>Actions</th>
     </tr>
-
+    @if(session()->has('success_message'))
+    <div class="alert alert-success">
+        {{session()->get("success_message")}}
+    </div>
+@endif
 @foreach ($types as $type)
     <tr>
          <td>{{ $type->id }}</td>

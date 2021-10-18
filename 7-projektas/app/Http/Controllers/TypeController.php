@@ -49,7 +49,8 @@ class TypeController extends Controller
             $type->company_id = $request->type_company_id;
 
             $type ->save(); //insert į duomenų bazę
-            return redirect()->route("type.index");
+            return redirect()->route("type.index")->with('success_message','Tipas sėkmingai pridėtas');
+
 
     }
 
@@ -89,7 +90,8 @@ class TypeController extends Controller
             $type->description = $request->type_description;
             $type->company_id = $request->type_company_id;
             $type ->save(); //insert į duomenų bazę
-            return redirect()->route("type.index");
+            return redirect()->route("type.index")->with('success_message','Tipas redaguotas ištrintas');
+
     }
 
     /**
@@ -101,6 +103,7 @@ class TypeController extends Controller
     public function destroy(Type $type)
     {
         $type->delete();
-        return redirect()->route("type.index");
+        // return redirect()->route("type.index");
+        return redirect()->route("type.index")->with('success_message','Tipas sėkmingai ištrintas');
     }
 }
