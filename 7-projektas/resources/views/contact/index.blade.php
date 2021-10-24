@@ -46,7 +46,7 @@
             <a class="btn btn-secondary" href="{{route('contact.edit', [$contact])}}">Edit</a>
             <form method="POST" action="{{route('contact.destroy', [$contact]) }}">
                 @csrf
-                <button class="btn btn-danger" type="submit">Delete</button>
+                <buttonū'0+class="btn btn-danger" type="submit">Delete</button>
                 {{-- <a type="submit" --}}
             </form>
         </td>

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Type;
+use App\Models\Task;
 use Illuminate\Http\Request;
-use App\Models\Company;
 
 class TypeController extends Controller
 {
@@ -26,8 +26,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        $companies=Company::all();
-        return view("type.create", ["companies"=>$companies]);
+        return view("type.create");
     }
 
     /**
@@ -38,20 +37,12 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
+        $type= new Type;
+        $type->title = $request->type_title;
+        $type->description = $request->type_description;
 
-            $type= new Type;
-            $type->title = $request->type_title;
-            //kairėj stulpelio pavadinimas
-            //dešinėj pusėj input laukelio vardas, kurį suteikėme input formoj
-            //tas pats, kas $GET["author_name"]
-            $type->description = $request->type_description;
-
-            $type->company_id = $request->type_company_id;
-
-            $type ->save(); //insert į duomenų bazę
-            return redirect()->route("type.index")->with('success_message','Tipas sėkmingai pridėtas');
-
-
+        $type ->save(); //insert į duomenų bazę
+        return redirect()->route("type.index")->with('success_message','Type is added.');
     }
 
     /**
@@ -62,6 +53,10 @@ class TypeController extends Controller
      */
     public function show(Type $type)
     {
+        // $tasks = $type->typeTasks;
+        // $tasks_count = $tasks->count();
+
+        // return view("type.show",["type"=>$type, "tasks"=> $tasks, "tasks_count" => $tasks_count]);
         return view('type.show', ['type' => $type]);
     }
 
@@ -73,8 +68,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-        $companies=Company::all();
-        return view("type.edit", ["type"=>$type, "companies"=>$companies]);
+        return view("type.edit", ["type"=> $type]);
     }
 
     /**
@@ -86,11 +80,10 @@ class TypeController extends Controller
      */
     public function update(Request $request, Type $type)
     {
-            $type->title = $request->type_title;
-            $type->description = $request->type_description;
-            $type->company_id = $request->type_company_id;
-            $type ->save(); //insert į duomenų bazę
-            return redirect()->route("type.index")->with('success_message','Tipas redaguotas ištrintas');
+        $type->title = $request->type_title;
+        $type->description = $request->type_description;
+        $type ->save(); //insert į duomenų bazę
+        return redirect()->route("type.index")->with('success_message','Type is updated');
 
     }
 
@@ -104,6 +97,7 @@ class TypeController extends Controller
     {
         $type->delete();
         // return redirect()->route("type.index");
-        return redirect()->route("type.index")->with('success_message','Tipas sėkmingai ištrintas');
+        return redirect()->route("type.index")->with('success_message','Type is deleted.');
+
     }
 }
