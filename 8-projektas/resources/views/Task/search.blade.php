@@ -6,12 +6,25 @@
 <div class="container">
     <h1>Tasks</h1>
     <a class="btn btn-primary" href="{{route('task.create')}}">Create</a><br>
-
+    <br>
     <form action="{{route('task.search')}}" method="GET">
         @csrf
         <input type="text" name="search" placeholder="Enter search key" />
-        <button type="submit">Search</button>
+        <button class="btn btn-primary" type="submit">Search</button>
     </form>
+<br>
+    <form action="{{route('task.search')}}" method="GET">
+        @csrf
+         <select class="form-control" name="task_type_id">
+            <option value="404">Choose type</option>
+            @foreach($types as $type)
+            <option value="{{$type->id}}"
+                {{-- @if($type->id==$task->type_id) selected @endif --}}
+                >{{$type->title}}</option>
+            @endforeach
+</select>
+<button class="btn btn-primary" type="submit">Filter</button>
+</form>
 
     {{-- <form action="{{route('task.index')}}" method="GET">
         @csrf
@@ -38,6 +51,11 @@
     <div class="alert alert-success">
         {{session()->get("success_message")}}
     </div>
+@endif
+@if(session()->has('danger_message'))
+<div class="alert alert-danger">
+    {{session()->get("danger_message")}}
+</div>
 @endif
 @foreach ($tasks as $task)
     <tr>

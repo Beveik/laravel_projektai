@@ -38,7 +38,7 @@
 
 
                                     @foreach($types as $type)
-                                    <option>{{$type->title}}</option>
+                                    <option value="{{$type->id}}">{{$type->title}}</option>
                                     @endforeach
             </select>
                             </div>

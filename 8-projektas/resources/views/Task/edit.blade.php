@@ -8,6 +8,7 @@
                 <div class="card-header">{{ __('Edit task') }}</div>
 
                 <div class="card-body">
+
                     <form method="POST" action="{{ route('task.update', [$task]) }}" enctype="multipart/form-data">
                         @csrf
 
@@ -38,7 +39,7 @@
 
 
                                     @foreach($types as $type)
-                                    <option value="{{$type->id}}" @if($type->id==$type->type_id) selected @endif >{{$type->title}}</option>
+                                    <option value="{{$type->id}}" @if($type->id==$task->type_id) selected @endif >{{$type->title}}</option>
                                     @endforeach
             </select>
                             </div>
@@ -57,7 +58,10 @@
 
                             </div>
                         </div>
-                        <div class="form-group row">
+
+
+
+                        {{-- <div class="form-group row">
                             <label for="task_logo" class="col-md-4 col-form-label text-md-right">{{ __('Task logo') }}</label>
 
                             <div class="col-md-6">
@@ -65,7 +69,7 @@
                             </div>
 
                             <img src="{{$task->logo}}" alt='{{$task->title}}' />
-                        </div>
+                        </div> --}}
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
@@ -76,12 +80,19 @@
 
                             </div>
                         </div>
+                        @if(session()->has('danger_message'))
+                        <div class="alert alert-danger">
+                            {{session()->get("danger_message")}}
+                        </div>
+                        @endif
                     </form>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
 

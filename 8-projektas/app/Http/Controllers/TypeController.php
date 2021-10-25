@@ -100,4 +100,21 @@ class TypeController extends Controller
         return redirect()->route("type.index")->with('success_message','Type is deleted.');
 
     }
+
+    public function search(Request $request) {
+
+        // $tasks=Task::all();
+      $search = $request->search;
+
+
+if (isset($search) && !empty($search)){
+    $types = Type::query()->sortable()->where('title', 'LIKE', "%{$search}%")->orWhere('description', 'LIKE', "%{$search}%")->paginate(5);
+} else  {
+    return redirect()->route("type.index")->with('danger_message','Your search is empty!');
+}
+
+
+
+        return view("type.search",['types'=> $types]);
+    }
 }

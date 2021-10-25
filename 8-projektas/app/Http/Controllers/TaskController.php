@@ -6,8 +6,6 @@ use App\Models\Task;
 use App\Models\Type;
 use Illuminate\Http\Request;
 
-use function PHPSTORM_META\map;
-
 class TaskController extends Controller
 {
     /**
@@ -18,23 +16,24 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $types=Type::all();
-        // $tasks=Task::all();
+        $tasks=Task::all();
         // return view("task.index", ["tasks"=>$tasks]);
 
-        $collumnName = $request->collumnname; // 'po formos patvirinimo jie yra gauti'
-        $sortby = $request->sortby; // 'po formos patvirtinimo jie yra gaut'
+        // $collumnName = $request->collumnname; // 'po formos patvirinimo jie yra gauti'
+        // $sortby = $request->sortby; // 'po formos patvirtinimo jie yra gaut'
 
-        if(!$collumnName && !$sortby ) {
-            $collumnName = 'id';
-            $sortby = 'asc';
-        }
+        // if(!$collumnName && !$sortby ) {
+        //     $collumnName = 'id';
+        //     $sortby = 'asc';
+        // }
 
-        // $companies = Company::orderBy( $collumnName, $sortby)->get();
+        // // $companies = Company::orderBy( $collumnName, $sortby)->get();
 
-        //puslapiavimasaa, 55sa0z7]ižūo
-        €39ZSE[p-eę$tasks = 3666666666666666666666666666666666666666666666+/jh+-.+3+3map(n0b)::orderBy( $collumnName, $sortby)->paginate(5);
-
-        return view('task.index', ['tasks' => $tasks, 'collumnName' => $collumnName, 'sortby' => $sortby, "types"=>$types]);
+        // //puslapiavimas
+        // $tasks = Task::orderBy( $collumnName, $sortby)->paginate(5);
+        // return view('task.index', ['tasks' => $tasks, 'collumnName' => $collumnName, 'sortby' => $sortby, "types"=>$types]);
+         $tasks = Task::orderBy( 'id', 'asc')->paginate(5);
+         return view('task.index', ['tasks' => $tasks, 'types'=>$types]);
     }
 
     /**
@@ -45,30 +44,38 @@ class TaskController extends Controller
     public function create()
     {
         $types=Type::all();
+
         return view("task.create", ["types"=>$types]);
     }
-.,ųū/
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-        'public function store(Request $request)
+    public function store(Request $request)
     {
+        $types=Type::all();
         $task= new Task;
             $task->title = $request->task_title;
-            //kairėj stulpelio pavadinimas
-            //dešinėj pusėj input laukelio vardas, kurį suteikėme input formoj
-            //tas pats, kas $GET["author_name"]=
             $task->description = $request->task_description;
             $task->type_id = $request->task_type_id;
             $task->start_date = $request->task_start;
             $task->end_date = $request->task_end;
             $task->logo = $request->task_logo;
 
-            $task ->save(); //insert į duomenų bazę
-            return redirect()->route("task.index")->with('success_message','Kompanija sėkmingai pridėta');
+            if ($task->start_date <= $task->end_date) {
+                $task ->save();
+                return redirect()->route("task.index")->with('success_message','Task is created.');
+            } else {
+
+                return view("task.create", ['task' => $task, 'types' => $types])->with('danger_message','Date is wrong.');
+                //    return redirect()->route("task.index")->with('danger_message','Date is wrong.');
+            }
+
+            $task ->save();
+            return redirect()->route("task.index");
 
     }
 
@@ -91,7 +98,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $types=Type::all();
+        $types=Type::all()->sortBy('title', SORT_REGULAR, true); // mažėjimo tvarka
         return view("task.edit", ["task"=>$task, "types"=>$types]);
     }
 
@@ -104,15 +111,34 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+        $types=Type::all();
             $task->title = $request->task_title;
             $task->description = $request->task_description;
             $task->type_id = $request->task_type_id;
             $task->start_date = $request->task_start;
             $task->end_date = $request->task_end;
-            $task->logo = $request->task_logo;
 
-            $task ->save(); //insert į duomenų bazę
-            return redirect()->route("task.index")->with('success_message','Task is updated.');
+
+            if ($task->start_date <= $task->end_date) {
+                $task ->save();
+                return redirect()->route("task.index")->with('success_message','Task is updated.');
+            } else {
+
+                return view("task.edit", ['task' => $task, 'types' => $types])->with('danger_message','Date is wrong.');
+                //    return redirect()->route("task.index")->with('danger_message','Date is wrong.');
+            }
+
+            // $task->logo = $request->task_logo;
+
+            // if($request->has('task_logo'))
+            // {
+            //     $imageName = time().'.'.$request->task_logo->extension();
+            //     $task->task_logo = '/images/'.$imageName;
+            //     $request->task_logo->move(public_path('images'), $imageName);
+            // } else {
+            //     $task->task_logo = '/images/placeholder.png';
+            // }
+
     }
 
     /**
@@ -120,10 +146,9 @@ class TaskController extends Controller
      *
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
-     *// /  c/    public function destroy(Task $task)
-4
-   {['
-    ']
+     */
+     public function destroy(Task $task)
+    {
         // $types_count = $task->CompanyTypes->count(); //gausiu knygu skaiciu
         // if($types_count!=0) {
         //     return redirect()->route("task.index")->with('error_message','You can not delete this task, try again later.');
@@ -135,22 +160,25 @@ class TaskController extends Controller
     }
     public function search(Request $request) {
         $types=Type::all();
-if (isset($search)){
-    $search = $request->search;
-    $tasks = Task::query()->sortable()->where('title', 'LIKE', "%{$search}%")->orWhere('description', 'LIKE', "%{$search}%")->paginate(5);
-} else if (isset($typefilter)){
+        // $tasks=Task::all();
+      $search = $request->search;
 $typefilter=$request->task_type_id;
-// $tasks = Task::query()->sortable()->where('type_id', 'task_type_id')->paginate(5);
-$tasks = Task::orderBy( 'type_id', $typefilter)->paginate(5);
 
+if (isset($search) && !empty($search)){
+    $tasks = Task::query()->sortable()->where('title', 'LIKE', "%{$search}%")->orWhere('description', 'LIKE', "%{$search}%")->paginate(5);
+} else if (isset($typefilter) && $typefilter!=404 ){
+$tasks = Task::sortable()->where('type_id', $typefilter)->paginate(5);
+} else  {
+    return redirect()->route("task.index")->with('danger_message','Your filter or search is empty!');
 }
 
 
 
 
+// return view("task.search",['tasks'=> $tasks]);
+
+
         return view("task.search",['tasks'=> $tasks, 'types'=> $types]);
     }
 
-}291000000000 0
-vvvvvvvvvvv,3+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              nnnnnnnnnnnnnnnnnnnnnnnnn]]'+\
-2/1+11+236;lk
+}

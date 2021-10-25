@@ -16,17 +16,17 @@
     <form action="{{route('task.search')}}" method="GET">
         @csrf
          <select class="form-control" name="task_type_id">
-            <option >Choose type</option>
+            <option value="404">Choose type</option>
             @foreach($types as $type)
             <option value="{{$type->id}}"
-                {{-- @if($type->id==$tasks->type_id) selected @endif --}}
+                {{-- @if($type->id==$task->type_id) selected @endif --}}
                 >{{$type->title}}</option>
             @endforeach
 </select>
-<button class="btn btn-primary" type="submit">Sort</button>
+<button class="btn btn-primary" type="submit">Filter</button>
 </form>
 
-    <form action="{{route('task.index')}}" method="GET">
+    {{-- <form action="{{route('task.index')}}" method="GET">
         @csrf
         <select name="collumnname">
 
@@ -69,7 +69,7 @@
 
         <button class="btn btn-primary" type="submit">SORT</button>
 
-    </form>
+    </form> --}}
 
 
 <table class="table table-striped">
@@ -86,6 +86,11 @@
     <div class="alert alert-success">
         {{session()->get("success_message")}}
     </div>
+@endif
+@if(session()->has('danger_message'))
+<div class="alert alert-danger">
+    {{session()->get("danger_message")}}
+</div>
 @endif
 @foreach ($tasks as $task)
     <tr>

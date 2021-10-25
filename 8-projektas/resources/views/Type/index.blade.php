@@ -5,12 +5,20 @@
 
 <div class="container">
     <h1>Types</h1>
+
     <a class="btn btn-primary" href="{{route('type.create')}}">Create</a><br>
-<table class="table table-striped">
+
+    <form action="{{route('type.search')}}" method="GET">
+        @csrf
+        <input type="text" name="search" placeholder="Enter search key" />
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+
+    <table class="table table-striped">
     <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Description</th>
+        <th>@sortablelink('id', 'ID')</th>
+        <th>@sortablelink('title', 'Title')</th>
+        <th>@sortablelink('description', 'Description')</th>
         <th>Actions</th>
     </tr>
     @if(session()->has('success_message'))
