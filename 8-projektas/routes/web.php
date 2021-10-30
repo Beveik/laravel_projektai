@@ -40,6 +40,18 @@ Route::prefix('tasks')->group(function () {
     Route::get('search', 'App\Http\Controllers\TaskController@search')->name('task.search')->middleware("auth");
 });
 
+Route::prefix('owners')->group(function () {
+
+    Route::get('','App\Http\Controllers\OwnerController@index')->name('owner.index')->middleware("auth");
+    Route::get('create', 'App\Http\Controllers\OwnerController@create')->name('owner.create')->middleware("auth");
+    Route::post('store', 'App\Http\Controllers\OwnerController@store')->name('owner.store')->middleware("auth");
+    Route::get('edit/{owner}', 'App\Http\Controllers\OwnerController@edit')->name('owner.edit')->middleware("auth");
+    Route::post('update/{owner}', 'App\Http\Controllers\OwnerController@update')->name('owner.update')->middleware("auth");
+    Route::post('delete/{owner}', 'App\Http\Controllers\OwnerController@destroy' )->name('owner.destroy')->middleware("auth");
+    Route::get('show/{owner}', 'App\Http\Controllers\OwnerController@show')->name('owner.show')->middleware("auth");
+    Route::get('search', 'App\Http\Controllers\OwnerController@search')->name('owner.search')->middleware("auth");
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

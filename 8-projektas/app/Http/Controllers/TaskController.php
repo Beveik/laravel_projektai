@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Owner;
 use App\Models\Type;
 use Illuminate\Http\Request;
+
 
 class TaskController extends Controller
 {
@@ -15,6 +17,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
+        $owners=Owner::all();
         $types=Type::all();
         $tasks=Task::all();
         // return view("task.index", ["tasks"=>$tasks]);
@@ -33,7 +36,7 @@ class TaskController extends Controller
         // $tasks = Task::orderBy( $collumnName, $sortby)->paginate(5);
         // return view('task.index', ['tasks' => $tasks, 'collumnName' => $collumnName, 'sortby' => $sortby, "types"=>$types]);
          $tasks = Task::orderBy( 'id', 'asc')->paginate(5);
-         return view('task.index', ['tasks' => $tasks, 'types'=>$types]);
+         return view('task.index', ['tasks' => $tasks, 'types'=>$types, "owners"=>$owners]);
     }
 
     /**
@@ -43,9 +46,10 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $types=Type::all();
+        $types=Type::all()->sortBy('title', SORT_REGULAR, true);
+        $owners=Owner::all()->sortBy('name', SORT_REGULAR, false);
 
-        return view("task.create", ["types"=>$types]);
+        return view("task.create", ["types"=>$types, "owners"=>$owners]);
     }
 
     /**
@@ -56,27 +60,44 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $types=Type::all();
+        $types=Type::all()->sortBy('title', SORT_REGULAR, false);
+        $owners=Owner::all()->sortBy('name', SORT_REGULAR, false);
+        $type_count=$types->count();
+        $owner_count=$owners->count();
         $task= new Task;
+
+        $validateVar = $request->validate([
+
+            // 'title' => [ 'unique:tasks', 'regex:/^[a-zA-Z0-9]+$/u'],// a-z A-Z 0-9
+            'task_title' => 'required|unique:tasks,title|regex:/^[a-zA-Z0-9]+$/u|min:6|max:225',// a-z A-Z 0-9
+            'task_description' => 'required|max:1500',
+            'task_type_id' => 'numeric|integer|lte:'.$type_count,
+            'task_owner_id' => 'numeric|integer|lte:'.$owner_count,
+            'task_start' => 'required|date', //required|date|before:end_date
+            'task_end' => 'required|date|after:start_date',
+            'task_logo' => 'image',
+    ]);
+
             $task->title = $request->task_title;
             $task->description = $request->task_description;
             $task->type_id = $request->task_type_id;
             $task->start_date = $request->task_start;
             $task->end_date = $request->task_end;
+            $task->owner_id = $request->task_owner_id;
             $task->logo = $request->task_logo;
 
-            if ($task->start_date <= $task->end_date) {
-                $task ->save();
-                return redirect()->route("task.index")->with('success_message','Task is created.');
-            } else {
+            // if ($task->start_date <= $task->end_date) {
+            //     $task ->save();
+            //     return redirect()->route("task.index")->with('success_message','Task is created.');
+            // } else {
 
-                return view("task.create", ['task' => $task, 'types' => $types])->with('danger_message','Date is wrong.');
-                //    return redirect()->route("task.index")->with('danger_message','Date is wrong.');
-            }
+            //     return view("task.create", ['task' => $task, 'types' => $types])->with('danger_message','Date is wrong.');
+            //     //    return redirect()->route("task.index")->with('danger_message','Date is wrong.');
+            // }
 
             $task ->save();
-            return redirect()->route("task.index");
-
+            // return redirect()->route("task.index");
+            return redirect()->route("task.index")->with('success_message','Task is created.');
     }
 
     /**
@@ -98,8 +119,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $types=Type::all()->sortBy('title', SORT_REGULAR, true); // mažėjimo tvarka
-        return view("task.edit", ["task"=>$task, "types"=>$types]);
+        $types=Type::all()->sortBy('title', SORT_REGULAR, false); // mažėjimo tvarka
+        $owners=Owner::all()->sortBy('name', SORT_REGULAR, false);
+        return view("task.edit", ["task"=>$task, "types"=>$types, "owners"=>$owners ]);
     }
 
     /**

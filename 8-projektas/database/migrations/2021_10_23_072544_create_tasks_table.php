@@ -18,11 +18,14 @@ class CreateTasksTable extends Migration
             $table->string("title", 225);
             $table->longText("description");
             $table->unsignedBigInteger("type_id");
-            $table->foreign("type_id")->references("id")->on("types");
             $table->dateTime("start_date");
             $table->dateTime("end_date");
             $table->string("logo");
+            $table->unsignedBigInteger("owner_id");
             $table->timestamps();
+
+            $table->foreign("type_id")->references("id")->on("types");
+            $table->foreign("owner_id")->references("id")->on("owners");
         });
     }
 

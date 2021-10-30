@@ -39,6 +39,7 @@
                             </div>
                         </div>
                     </form>
+                    <a class="btn btn-secondary " href="{{route('type.index')}}">Back</a><br>
                 </div>
             </div>
         </div>

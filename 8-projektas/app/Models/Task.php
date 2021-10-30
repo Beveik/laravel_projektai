@@ -14,11 +14,16 @@ class Task extends Model
         return $this->belongsTo('App\Models\Type', 'type_id', 'id');
     }
 
+
+    public function TaskOwner(){
+        return $this->belongsTo('App\Models\Owner', 'owner_id', 'id');
+    }
+
     use Sortable;
 
     protected $table = "tasks";
 
-    protected $fillable = ["title", "description", "type_id", "start_date", "end_date"];
+    protected $fillable = ["title", "description", "type_id", "start_date", "end_date", "owner_id" ];
 
-    public $sortable = ["id", "title", "description", "type_id", "start_date", "end_date"];
+    public $sortable = ["id", "title", "description", "type_id", "start_date", "end_date", "owner_id"];
 }

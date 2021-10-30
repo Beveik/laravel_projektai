@@ -45,6 +45,7 @@
         <th>@sortablelink('type_id', 'Type')</th>
         <th>@sortablelink('start_date', 'Start date')</th>
         <th>@sortablelink('end_date', 'End date')</th>
+        <th>@sortablelink('owner_id', 'Owner')</th>
         <th>Actions</th>
     </tr>
     @if(session()->has('success_message'))
@@ -65,6 +66,7 @@
         <td>{{ $task->TaskType->title}}</td>
         <td>{{ $task->start_date}}</td>
         <td>{{ $task->end_date }}</td>
+        <td>{{ $task->TaskOwner->name}} {{ $task->TaskOwner->surname}}</td>
 
         <td>
             <a class="btn btn-primary" href="{{route('task.show', [$task])}}">Show</a>

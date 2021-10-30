@@ -37,6 +37,15 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
+        $validateVar = $request->validate([
+
+
+            'type_title' => 'required|regex:/^[a-zA-Z0-9]+$/u',// a-z A-Z 0-9
+            'type_description' => 'required|max:1500',
+
+
+    ]);
+
         $type= new Type;
         $type->title = $request->type_title;
         $type->description = $request->type_description;
@@ -80,6 +89,15 @@ class TypeController extends Controller
      */
     public function update(Request $request, Type $type)
     {
+        $validateVar = $request->validate([
+
+
+            'type_title' => 'required|regex:/^[a-zA-Z0-9]+$/u',// a-z A-Z 0-9
+            'type_description' => 'required|max:1500',
+
+
+    ]);
+
         $type->title = $request->type_title;
         $type->description = $request->type_description;
         $type ->save(); //insert į duomenų bazę

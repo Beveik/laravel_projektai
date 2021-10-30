@@ -16,7 +16,11 @@
                             <label for="task_title" class="col-md-4 col-form-label text-md-right">{{ __('Task title') }}</label>
                             <div class="col-md-6">
                                 <input id="title" type="text" class="form-control" name="task_title" value="{{$task->title}}" required>
-
+                                @error('task_title')
+                                <span role="alert" class="invalid-feedback">
+                                    <strong>*{{$message}}</strong>
+                                </span>
+                            @enderror
                             </div>
                         </div>
 
@@ -28,6 +32,11 @@
                                 <textarea class="summernote" name="task_description">
                                     {{$task->description}}
                                 </textarea>
+                                @error('task_description')
+                                <span role="alert" class="invalid-feedback">
+                                    <strong>*{{$message}}</strong>
+                                </span>
+                            @enderror
                             </div>
                         </div>
                         <div class="form-group row">
@@ -48,28 +57,56 @@
                             <label for="task_start" class="col-md-4 col-form-label text-md-right">{{ __('Task start date') }}</label>
                             <div class="col-md-6">
                                 <input id="task_start" type="text" class="form-control" name="task_start" value="{{$task->start_date}}" required>
-
+                                @error('task_start')
+                                <span role="alert" class="invalid-feedback">
+                                    <strong>*{{$message}}</strong>
+                                </span>
+                            @enderror
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="task_end" class="col-md-4 col-form-label text-md-right">{{ __('Task end date') }}</label>
                             <div class="col-md-6">
                                 <input id="task_end" type="text" class="form-control" name="task_end" value="{{$task->end_date}}" required>
+                                @error('task_end')
+                                <span role="alert" class="invalid-feedback">
+                                    <strong>*{{$message}}</strong>
+                                </span>
+                            @enderror
+                            </div>
+                        </div>
 
+                        <div class="form-group row">
+                            <label for="task_owner_id" class="col-md-4 col-form-label text-md-right">{{ __('Owner') }}</label>
+
+                            <div class="col-md-6">
+                                {{-- <input id="name" type="text" class="form-control" name="attendGroup_school_id" value="{{$attendGroup->school_id}}" required autofocus> --}}
+                                <select class="form-control" name="task_owner_id">
+
+
+                                    @foreach($owners as $owner)
+                                    <option value="{{$owner->id}}" @if($owner->id==$task->owner_id) selected @endif >{{$owner->name}} {{$owner->surname}}</option>
+                                    @endforeach
+            </select>
                             </div>
                         </div>
 
 
-
-                        {{-- <div class="form-group row">
+                        <div class="form-group row">
                             <label for="task_logo" class="col-md-4 col-form-label text-md-right">{{ __('Task logo') }}</label>
 
                             <div class="col-md-6">
                                 <input id="logo" type="file" class="form-control" name="task_logo" value="{{$task->logo}}">
-                            </div>
+                            <br>
+                        </div>
 
-                            <img src="{{$task->logo}}" alt='{{$task->title}}' />
-                        </div> --}}
+                            @error('logo')
+                                <span role="alert" class="invalid-feedback">
+                                    <strong>*{{$message}}</strong>
+                                </span>
+                            @enderror
+                            <img class="col-md-4 col-form-label" src="{{$task->logo}}" alt='{{$task->title}}' />
+                        </div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
@@ -79,14 +116,16 @@
 
 
                             </div>
+
                         </div>
+
                         @if(session()->has('danger_message'))
                         <div class="alert alert-danger">
                             {{session()->get("danger_message")}}
                         </div>
                         @endif
                     </form>
-
+<a class="btn btn-secondary " href="{{route('task.index')}}">Back</a><br>
                 </div>
             </div>
         </div>

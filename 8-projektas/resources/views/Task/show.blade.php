@@ -13,5 +13,6 @@
 <p>Start date: {{$task->start_date}}</p>
 <p>End date: {{$task->end_date}}</p>
 <img src="{{$task->logo}}" alt='{{$task->title}}' />
+<a class="btn btn-secondary " href="{{route('task.index')}}">Back</a><br>
 </div>
 @endsection
