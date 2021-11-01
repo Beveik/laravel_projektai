@@ -5,6 +5,7 @@
 
 <div class="container">
     <h1>Tasks</h1>
+    <a class="btn btn-secondary" href="{{route('tasks.pdf')}}"> Export tasks table to PDF </a> <br><br>
     <a class="btn btn-primary" href="{{route('task.create')}}">Create new task</a><br>
 
     <form action="{{route('task.search')}}" method="GET">
@@ -116,6 +117,7 @@
 @endforeach
 
 </table>
+<p>{{$tasks->count() }} of {{$task->count()}} </p>
 {!! $tasks->appends(Request::except('page'))->render() !!}
 </div>
 @endsection

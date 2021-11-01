@@ -11,6 +11,7 @@
 <p>Email: {{$owner->email}}</p>
 <p>Phone: {{$owner->phone}}</p>
 
-<a class="btn btn-secondary " href="{{route('owner.index')}}">Back</a><br>
+<a class="btn btn-secondary" href="{{route('owner.pdfowner', [$owner])}}"> Export this owner to PDF </a> <br><br>
+<a class="btn btn-primary " href="{{route('owner.index')}}">Back</a><br>
 </div>
 @endsection

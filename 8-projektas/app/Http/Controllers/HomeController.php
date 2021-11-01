@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Owner;
+use App\Models\Type;
+use App\Models\Task;
+use PDF;
 
 class HomeController extends Controller
 {
@@ -24,5 +28,22 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+    public function generatePDF() {
+
+        $owners=Owner::all();
+        $types=Type::all();
+        $tasks=Task::all();
+
+        $owner_count = $owners -> count();
+        $type_count = $types -> count();
+        $task_count = $tasks -> count();
+
+        view()->share(['owner_count' => $owner_count, 'type_count' => $type_count, 'task_count'=>$task_count]);
+
+        $pdf = PDF::loadView('pdf_statistics');
+
+        return $pdf->download('statistics.pdf');
+
     }
 }

@@ -5,6 +5,7 @@
 
 <div class="container">
     <h1>Owners</h1>
+    <a class="btn btn-secondary" href="{{route('owners.pdf')}}"> Export Owners table to PDF </a> <br><br>
     <a class="btn btn-primary" href="{{route('owner.create')}}">Create new owner</a><br>
 
     <form action="{{route('owner.search')}}" method="GET">
@@ -96,9 +97,11 @@
             </form>
         </td>
     </tr>
+
 @endforeach
 
 </table>
+<p>{{$owners->count() }} of {{$owner->count()}} </p>
 {!! $owners->appends(Request::except('page'))->render() !!}
 </div>
 @endsection

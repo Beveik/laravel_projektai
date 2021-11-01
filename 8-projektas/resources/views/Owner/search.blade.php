@@ -43,10 +43,12 @@
                 <button class="btn btn-danger" type="submit">Delete</button>
                 {{-- <a type="submit" --}}
             </form>
+
         </td>
     </tr>
 @endforeach
 
 </table>
+<p>{{$owners->count() }} of {{$owner->count()}} </p>
 </div>
 @endsection

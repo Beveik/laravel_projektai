@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Type;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use PDF;
 
 class TypeController extends Controller
 {
@@ -134,5 +135,28 @@ if (isset($search) && !empty($search)){
 
 
         return view("type.search",['types'=> $types]);
+    }
+
+    public function generatePDF() {
+
+        //1. Pasiimti visus duomenis x
+        // 2. kazkokiu panaudoti pdf biblioteka
+        // 3. sugeneruoti atsisiuntimo nuoroda
+
+        $types = Type::all();
+
+        view()->share('types', $types);
+
+        $pdf = PDF::loadView('pdf_template_types', $types);
+
+        return $pdf->download('types.pdf');
+    }
+    public function generateType(Type $type)
+    {
+        view()->share('type', $type);
+
+        $pdf = PDF::loadView("pdf_template_type", $type);
+        return $pdf->download("type".$type->id.".pdf");
+
     }
 }

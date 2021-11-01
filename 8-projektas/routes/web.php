@@ -26,6 +26,8 @@ Route::prefix('types')->group(function () {
     Route::post('delete/{type}', 'App\Http\Controllers\TypeController@destroy' )->name('type.destroy')->middleware("auth");
     Route::get('show/{type}', 'App\Http\Controllers\TypeController@show')->name('type.show')->middleware("auth");
     Route::get('search', 'App\Http\Controllers\TypeController@search')->name('type.search')->middleware("auth");
+    Route::get('/pdf', 'App\Http\Controllers\TypeController@generatePDF')->name('types.pdf')->middleware("auth");
+    Route::get('pdfType/{type}','App\Http\Controllers\TypeController@generateType')->name('type.pdftype')->middleware("auth");
 });
 
 Route::prefix('tasks')->group(function () {
@@ -38,6 +40,8 @@ Route::prefix('tasks')->group(function () {
     Route::post('delete/{task}', 'App\Http\Controllers\TaskController@destroy' )->name('task.destroy')->middleware("auth");
     Route::get('show/{task}', 'App\Http\Controllers\TaskController@show')->name('task.show')->middleware("auth");
     Route::get('search', 'App\Http\Controllers\TaskController@search')->name('task.search')->middleware("auth");
+    Route::get('/pdf', 'App\Http\Controllers\TaskController@generatePDF')->name('tasks.pdf')->middleware("auth");
+    Route::get('pdfTask/{task}','App\Http\Controllers\TaskController@generateTask')->name('task.pdftask')->middleware("auth");
 });
 
 Route::prefix('owners')->group(function () {
@@ -50,8 +54,11 @@ Route::prefix('owners')->group(function () {
     Route::post('delete/{owner}', 'App\Http\Controllers\OwnerController@destroy' )->name('owner.destroy')->middleware("auth");
     Route::get('show/{owner}', 'App\Http\Controllers\OwnerController@show')->name('owner.show')->middleware("auth");
     Route::get('search', 'App\Http\Controllers\OwnerController@search')->name('owner.search')->middleware("auth");
+    Route::get('/pdf', 'App\Http\Controllers\OwnerController@generatePDF')->name('owners.pdf')->middleware("auth");
+    Route::get('pdfOwner/{owner}','App\Http\Controllers\OwnerController@generateOwner')->name('owner.pdfowner')->middleware("auth");
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/pdf', 'App\Http\Controllers\HomeController@generatePDF')->name('pdfstatistics.pdf')->middleware("auth");

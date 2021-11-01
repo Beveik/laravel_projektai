@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Owner;
 use Illuminate\Http\Request;
+// use Barryvdh\DomPDF\Facade as PDF;
+use PDF;
 
 class OwnerController extends Controller
 {
@@ -14,8 +16,9 @@ class OwnerController extends Controller
      */
     public function index()
     {
-        $owners=Owner::orderBy( 'id', 'asc')->paginate(15);;
-        return view("owner.index", ["owners"=>$owners]);
+        $owners=Owner::orderBy( 'id', 'asc')->paginate(15);
+        $ownerscount=$owners->count();
+        return view("owner.index", ["owners"=>$owners, $ownerscount]);
     }
 
     /**
@@ -134,5 +137,31 @@ if (isset($search) && !empty($search)){
 
 
         return view("owner.search",['owners'=> $owners]);
+    }
+
+    public function generatePDF() {
+
+        //1. Pasiimti visus duomenis x
+        // 2. kazkokiu panaudoti pdf biblioteka
+        // 3. sugeneruoti atsisiuntimo nuoroda
+
+        $owners = Owner::all();
+
+        view()->share('owners', $owners);
+
+        $pdf = PDF::loadView('pdf_template_owners', $owners);
+
+        return $pdf->download('owners.pdf');
+
+
+        // return 0;
+    }
+    public function generateOwner(Owner $owner)
+    {
+        view()->share('owner', $owner);
+
+        $pdf = PDF::loadView("pdf_template_owner", $owner);
+        return $pdf->download("owner".$owner->id.".pdf");
+
     }
 }

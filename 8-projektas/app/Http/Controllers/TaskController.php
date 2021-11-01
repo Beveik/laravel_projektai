@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\Owner;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use PDF;
 
 
 class TaskController extends Controller
@@ -202,5 +203,27 @@ $tasks = Task::sortable()->where('type_id', $typefilter)->paginate(5);
 
         return view("task.search",['tasks'=> $tasks, 'types'=> $types]);
     }
+    public function generatePDF() {
 
+        //1. Pasiimti visus duomenis x
+        // 2. kazkokiu panaudoti pdf biblioteka
+        // 3. sugeneruoti atsisiuntimo nuoroda
+
+        $tasks = Task::all();
+
+        view()->share('tasks', $tasks);
+
+        $pdf = PDF::loadView('pdf_template_tasks', $tasks);
+
+        return $pdf->download('tasks.pdf');
+
+    }
+    public function generateTask(Task $task)
+    {
+        view()->share('task', $task);
+
+        $pdf = PDF::loadView("pdf_template_task", $task);
+        return $pdf->download("task".$task->id.".pdf");
+
+    }
 }

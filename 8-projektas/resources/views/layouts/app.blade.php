@@ -37,7 +37,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <a href="{{route('task.index')}}">Tasks</a>
+                    </ul>
+                    <ul class="navbar-nav mr-auto">
+                        <a href="{{route('owner.index')}}">Owners</a>
+                    </ul>
+                    <ul class="navbar-nav mr-auto">
+                        <a href="{{route('type.index')}}">Types</a>
+                    </ul>
+                    <ul class="navbar-nav mr-auto">
+                        <a href="{{route('pdfstatistics.pdf')}}"> Export statistics to pdf </a>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

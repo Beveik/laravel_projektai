@@ -5,7 +5,7 @@
 
 <div class="container">
     <h1>Types</h1>
-
+    <a class="btn btn-secondary" href="{{route('types.pdf')}}"> Export types table to PDF </a> <br><br>
     <a class="btn btn-primary" href="{{route('type.create')}}">Create</a><br>
 
     <form action="{{route('type.search')}}" method="GET">
