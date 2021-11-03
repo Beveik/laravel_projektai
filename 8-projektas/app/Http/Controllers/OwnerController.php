@@ -17,8 +17,8 @@ class OwnerController extends Controller
     public function index()
     {
         $owners=Owner::orderBy( 'id', 'asc')->paginate(15);
-        $ownerscount=$owners->count();
-        return view("owner.index", ["owners"=>$owners, $ownerscount]);
+        // $ownerscount=$owners->count();
+        return view("owner.index", ["owners"=>$owners]);
     }
 
     /**
@@ -47,7 +47,7 @@ class OwnerController extends Controller
             'owner_name' => 'required|regex:/^[a-zA-Z0-9]+$/u|min:2|max:15',// a-z A-Z 0-9
             'owner_surname' => 'required|regex:/^[a-zA-Z0-9]+$/u|min:2|max:15',
             'owner_email' => 'required|regex:/.+@.+\..+/',
-            'owner_phone' => 'required|min:12|max:12|regex:/^\+370/ ',
+            'owner_phone' => 'required|digits:12|regex:/^\+3706/ ', //(86|\+3706) \d{3} \d{4}
 
     ]);
         $owner->name = $request->owner_name;

@@ -5,28 +5,39 @@
 
 <div class="container">
     <h1>Tasks</h1>
-    <a class="btn btn-secondary" href="{{route('task.pdf')}}"> Export tasks table to PDF </a> <br><br>
+    {{-- <a class="btn btn-secondary" href="{{route('task.pdf')}}"> Export tasks table to PDF </a> <br><br> --}}
     <a class="btn btn-primary" href="{{route('task.create')}}">Create</a><br>
     <br>
     <form action="{{route('task.search')}}" method="GET">
         @csrf
         <input type="text" name="search" placeholder="Enter search key" />
+
         <button class="btn btn-primary" type="submit">Search</button>
     </form>
-<br>
     <form action="{{route('task.search')}}" method="GET">
         @csrf
-         <select class="form-control" name="task_type_id">
-            <option value="404">Choose type</option>
+         <select class="col-md-2 col-form-label text-md-left form-control" name="task_type_id">
+            <option value="404">All types</option>
             @foreach($types as $type)
             <option value="{{$type->id}}"
                 {{-- @if($type->id==$task->type_id) selected @endif --}}
                 >{{$type->title}}</option>
             @endforeach
 </select>
+
+<select class="col-md-2 col-form-label text-md-left form-control" name="pagination">
+    @foreach($paginationSettings as $paginationSetting)
+    @if ($paginationSetting->visible==1)
+    <option value="{{$paginationSetting->value}}"
+        @if(isset($paginationSetting->title)) selected @endif
+        >{{$paginationSetting->title}}</option>
+        @endif
+    @endforeach
+</select>
+
 <button class="btn btn-primary" type="submit">Filter</button>
 </form>
-
+<br>
     {{-- <form action="{{route('task.index')}}" method="GET">
         @csrf
          <select class="form-control" name="task_type_id">

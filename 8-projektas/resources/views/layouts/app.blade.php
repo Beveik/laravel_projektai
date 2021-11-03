@@ -46,6 +46,9 @@
                         <a href="{{route('type.index')}}">Types</a>
                     </ul>
                     <ul class="navbar-nav mr-auto">
+                        <a href="{{route('paginationsetting.index')}}">Pagination settings</a>
+                    </ul>
+                    <ul class="navbar-nav mr-auto">
                         <a href="{{route('pdfstatistics.pdf')}}"> Export statistics to pdf </a>
                     </ul>
 

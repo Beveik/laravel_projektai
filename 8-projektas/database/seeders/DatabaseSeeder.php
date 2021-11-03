@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(class: TypeSeeder::class);
         $this->call(class: OwnerSeeder::class);
         $this->call(class: TaskSeeder::class);
+        $this->call(class: PaginationSettingSeeder::class);
 
     }
 }

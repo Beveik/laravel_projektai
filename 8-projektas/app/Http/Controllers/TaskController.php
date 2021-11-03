@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\Owner;
 use App\Models\Type;
+use App\Models\PaginationSetting;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -18,6 +19,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
+        $paginationSettings=PaginationSetting::all();
         $owners=Owner::all();
         $types=Type::all();
         $tasks=Task::all();
@@ -34,12 +36,14 @@ class TaskController extends Controller
         // // $companies = Company::orderBy( $collumnName, $sortby)->get();
 
         // //puslapiavimas
-        // $tasks = Task::orderBy( $collumnName, $sortby)->paginate(5);
+        // $tasks = Task::orderBy( $collumnName, $sortby);
         // return view('task.index', ['tasks' => $tasks, 'collumnName' => $collumnName, 'sortby' => $sortby, "types"=>$types]);
-         $tasks = Task::orderBy( 'id', 'asc')->paginate(5);
-         return view('task.index', ['tasks' => $tasks, 'types'=>$types, "owners"=>$owners]);
-    }
 
+
+        $tasks = Task::orderBy( 'id', 'asc')->paginate(15);
+         return view('task.index', ['tasks' => $tasks, 'types'=>$types, "owners"=>$owners, "paginationSettings"=>$paginationSettings]);
+
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -181,28 +185,31 @@ class TaskController extends Controller
         return redirect()->route("task.index")->with('success_message','Task is deleted successfully.');
 
     }
-    public function search(Request $request) {
+    public function search(Request $request, Task $task) {
+        $paginationSettings=PaginationSetting::all();
         $types=Type::all();
-        // $tasks=Task::all();
+        $tasks=Task::all();
       $search = $request->search;
 $typefilter=$request->task_type_id;
+$pagination = $request->pagination;
+$task_count = $tasks -> count();
 
-if (isset($search) && !empty($search)){
-    $tasks = Task::query()->sortable()->where('title', 'LIKE', "%{$search}%")->orWhere('description', 'LIKE', "%{$search}%")->paginate(5);
-} else if (isset($typefilter) && $typefilter!=404 ){
-$tasks = Task::sortable()->where('type_id', $typefilter)->paginate(5);
-} else  {
-    return redirect()->route("task.index")->with('danger_message','Your filter or search is empty!');
+if ($pagination==1) {
+    $pagination=$task_count;
 }
-
-
-
-
-// return view("task.search",['tasks'=> $tasks]);
-
-
-        return view("task.search",['tasks'=> $tasks, 'types'=> $types]);
+    if (isset($pagination)  && isset($typefilter) && $typefilter!=404 ){
+$tasks = Task::sortable()->where('type_id', $typefilter)->paginate($pagination);
+    } else if ($typefilter==404){
+        $tasks = Task::orderBy( 'id', 'asc')->paginate($pagination);
     }
+
+ if (isset($search)){
+    $tasks = Task::query()->sortable()->where('title', 'LIKE', "%{$search}%")->orWhere('description', 'LIKE', "%{$search}%")->paginate($pagination);
+}
+    // }
+        return view("task.search",['tasks'=> $tasks,'task'=> $task, 'types'=> $types, 'paginationSettings'=>$paginationSettings, 'pagination'=>$pagination]);
+    }
+
     public function generatePDF() {
 
         //1. Pasiimti visus duomenis x
@@ -226,4 +233,19 @@ $tasks = Task::sortable()->where('type_id', $typefilter)->paginate(5);
         return $pdf->download("task".$task->id.".pdf");
 
     }
+
+//     public function pagination(Request $request, PaginationSetting $paginationSetting) {
+//         // $paginationSettings=PaginationSetting::all();
+// $pagination = $request->pagination;
+//         // $tasks=Task::all();
+//         if ($paginationSetting->visible==1){
+
+// if ($pagination==1) {
+//     $tasks = Task::all();
+//  } else  {
+// $tasks = Task::paginate($pagination);
+// }
+//         return view("task.index",['tasks'=> $tasks, 'paginationSetting'=> $paginationSetting]);
+//     }
+// }
 }
