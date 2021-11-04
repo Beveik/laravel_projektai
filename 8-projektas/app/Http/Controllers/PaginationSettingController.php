@@ -43,8 +43,9 @@ class PaginationSettingController extends Controller
 
 
                 'paginationSetting_title' => 'required|min:1|max:225|regex:/^[a-zA-Z0-9]+$/u',// a-z A-Z 0-9
-                'paginationSetting_value' => 'required|numeric|integer|gt:1',
-                // 'paginationSetting_visible' => 'integer|gte:1|lte:0',
+                'paginationSetting_value' => 'required|numeric|integer|gte:1',
+                // 'paginationSetting_visible' => 'boolean',
+                // 'paginationSetting_visible' => 'numeric|integer|min:0|max:1',
 
         ]);
 
