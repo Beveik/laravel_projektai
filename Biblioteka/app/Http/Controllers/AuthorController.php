@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use PDF;
 
 class AuthorController extends Controller
 {
@@ -16,7 +17,7 @@ class AuthorController extends Controller
     public function index(Book $book)
     {
         $books=Book::all();
-        $authors=Author::orderBy( 'id', 'asc')->paginate(15);
+        $authors=Author::query()->sortable()->orderBy( 'id', 'asc')->paginate(15);
         return view("author.index", ["authors"=>$authors, "book"=>$book, "books"=>$books]);
     }
 
@@ -99,6 +100,43 @@ class AuthorController extends Controller
         $author->delete();
         // return redirect()->route("type.index");
         return redirect()->route("author.index")->with('success_message','Author is deleted.');
+
+    }
+
+    public function search(Request $request) {
+
+      $search = $request->search;
+
+
+if (isset($search) && !empty($search)){
+    $authors = Author::query()->sortable()->where('name', 'LIKE', "%{$search}%")->orWhere('surname', 'LIKE', "%{$search}%")->paginate(15);
+} else  {
+    return redirect()->route("author.index")->with('danger_message','Your search is empty!');
+}
+
+        return view("author.search",['authors'=> $authors]);
+    }
+    public function generatePDF() {
+
+        //1. Pasiimti visus duomenis x
+        // 2. kazkokiu panaudoti pdf biblioteka
+        // 3. sugeneruoti atsisiuntimo nuoroda
+
+        $authors = Author::all();
+
+        view()->share('authors', $authors);
+
+        $pdf = PDF::loadView('pdf_template_authors', $authors);
+
+        return $pdf->download('authors.pdf');
+    }
+    public function generateAuthor(Author $author)
+    {
+        $books = $author->authorBooks; //dėl skaičiavimo
+        view()->share('author', $author, 'books', $books );
+
+        $pdf = PDF::loadView("pdf_template_author", ['author'=>$author, 'books'=>$books]);
+        return $pdf->download("author".$author->id.".pdf");
 
     }
 }

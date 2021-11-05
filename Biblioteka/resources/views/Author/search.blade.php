@@ -5,7 +5,7 @@
 
 <div class="container">
     <h1>Authors</h1>
-    <a class="btn btn-secondary" href="{{route('authors.pdf')}}"> Export authors table to PDF </a> <br><br>
+
     <a class="btn btn-primary" href="{{route('author.create')}}">Create new author</a><br>
 <br>
     <form action="{{route('author.search')}}" method="GET">
@@ -14,32 +14,8 @@
 
         <button class="btn btn-primary" type="submit">Search</button>
     </form>
-    {{-- <form action="{{route('book.search')}}" method="GET"> --}}
-        {{-- @csrf --}}
-         {{-- <select class="col-md-2 col-form-label text-md-left form-control" name="task_type_id"> --}}
-            {{-- <option value="404">All types</option>
-            @foreach($types as $type)
-            <option value="{{$type->id}}" --}}
-                {{-- @if($type->id==$task->type_id) selected @endif --}}
-                {{-- >{{ $type->title}}</option>
-            @endforeach
-</select> --}}
-
-{{-- <select class="col-md-2 col-form-label text-md-left form-control" name="pagination">
-    @foreach($paginationSettings as $paginationSetting)
-    @if ($paginationSetting->visible==1)
-    <option value="{{$paginationSetting->value}}" --}}
-        {{-- @if(isset($paginationSetting->value)) selected @endif --}}
-        {{-- >{{$paginationSetting->title}}</option>
-        @endif
-    @endforeach
-</select>
-
-<button class="btn btn-primary" type="submit">Filter</button>
-</form> --}}
+    <a class="btn btn-secondary" href="{{route('author.index')}}">Delete search</a><br>
 <br>
-
-
 
 <table class="table table-striped">
     <tr>

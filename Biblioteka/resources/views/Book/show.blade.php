@@ -14,7 +14,7 @@
 <p>Pages: {{$book->pages}}</p>
 <p>ISBN: {{$book->isbn}}</p>
 
-{{-- <a class="btn btn-secondary" href="{{route('type.pdftype', [$type])}}"> Export this type to PDF </a> <br><br> --}}
+<a class="btn btn-secondary" href="{{route('book.pdfbook', [$book])}}"> Export this book to PDF </a> <br><br>
 <a class="btn btn-primary " href="{{route('book.index')}}">All books</a><br><br>
 <a class="btn btn-secondary " href="{{route('author.show', [$book->BookAuthor->id] )}}">About author</a>
 </div>

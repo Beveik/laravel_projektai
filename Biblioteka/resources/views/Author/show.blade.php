@@ -18,7 +18,7 @@
 @endforeach
 
 
-{{-- <a class="btn btn-secondary" href="{{route('type.pdftype', [$type])}}"> Export this type to PDF </a> <br><br> --}}
+<a class="btn btn-secondary" href="{{route('author.pdfauthor', [$author])}}"> Export this author to PDF </a> <br><br>
 <a class="btn btn-primary " href="{{route('author.index')}}">Back</a><br>
 </div>
 @endsection

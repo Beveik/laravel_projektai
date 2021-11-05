@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+//The framework will automatically convert the array into a JSON response:
+Route::get('/', function () {
+    return [1, 2, 3];
+});
 
 Route::prefix('books')->group(function () {
 
@@ -27,8 +31,8 @@ Route::prefix('books')->group(function () {
     Route::post('delete/{book}', 'App\Http\Controllers\BookController@destroy' )->name('book.destroy')->middleware("auth");
     Route::get('show/{book}', 'App\Http\Controllers\BookController@show')->name('book.show')->middleware("auth");
     Route::get('search', 'App\Http\Controllers\BookController@search')->name('book.search')->middleware("auth");
-    // Route::get('/pdf', 'App\Http\Controllers\BookController@generatePDF')->name('books.pdf')->middleware("auth");
-    // Route::get('pdfType/{book}','App\Http\Controllers\BookController@generateType')->name('book.pdftype')->middleware("auth");
+    Route::get('/pdf', 'App\Http\Controllers\BookController@generatePDF')->name('books.pdf')->middleware("auth");
+    Route::get('pdfBook/{book}','App\Http\Controllers\BookController@generateBook')->name('book.pdfbook')->middleware("auth");
 });
 
 Route::prefix('authors')->group(function () {
@@ -41,8 +45,8 @@ Route::prefix('authors')->group(function () {
     Route::post('delete/{author}', 'App\Http\Controllers\AuthorController@destroy' )->name('author.destroy')->middleware("auth");
     Route::get('show/{author}', 'App\Http\Controllers\AuthorController@show')->name('author.show')->middleware("auth");
     Route::get('search', 'App\Http\Controllers\AuthorController@search')->name('author.search')->middleware("auth");
-    // Route::get('/pdf', 'App\Http\Controllers\AuthorController@generatePDF')->name('authors.pdf')->middleware("auth");
-    // Route::get('pdfType/{author}','App\Http\Controllers\AuthorController@generateauthor')->name('author.pdfauthor')->middleware("auth");
+    Route::get('/pdf', 'App\Http\Controllers\AuthorController@generatePDF')->name('authors.pdf')->middleware("auth");
+    Route::get('pdfAuthor/{author}','App\Http\Controllers\AuthorController@generateAuthor')->name('author.pdfauthor')->middleware("auth");
 });
 Auth::routes();
 
