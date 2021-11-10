@@ -4,11 +4,11 @@
 @section('content')
 
 <div class="container">
-    <h1>Authors</h1>
-    <a class="btn btn-secondary" href="{{route('authors.pdf')}}"> Export authors table to PDF </a> <br><br>
-    <a class="btn btn-primary" href="{{route('author.create')}}">Create new author</a><br>
+    <h1>Shops</h1>
+    <a class="btn btn-secondary" href="{{route('shops.pdf')}}"> Export shops table to PDF </a> <br><br>
+    <a class="btn btn-primary" href="{{route('shop.create')}}">Create new shop</a><br>
 <br>
-    <form action="{{route('author.search')}}" method="GET">
+    <form action="{{route('shop.search')}}" method="GET">
         @csrf
         <input type="text" name="search" placeholder="Enter search key" />
 
@@ -44,9 +44,12 @@
 <table class="table table-striped">
     <tr>
         <th>@sortablelink('id', 'ID')</th>
-        <th>@sortablelink('name', 'Name')</th>
-        <th>@sortablelink('surname', 'Surname')</th>
-        <th>Total books</th>
+        <th>@sortablelink('title', 'Title')</th>
+        <th>Description</th>
+        <th>Contacts</th>
+        <th>@sortablelink('country', 'Country')</th>
+        <th>Total categories</th>
+        {{-- <th>Total products</th> --}}
         <th>Show</th>
         <th>Edit</th>
         <th>Delete</th>
@@ -61,16 +64,19 @@
     {{session()->get("danger_message")}}
 </div>
 @endif
-@foreach ($authors as $author)
+@foreach ($shops as $shop)
     <tr>
-         <td>{{ $author->id }}</td>
-        <td>{{ $author->name}}</td>
-        <td>{{ $author->surname }}</td>
-        <td>{{$author->AuthorBooks->count()}}</td>
-        <td> <a class="btn btn-primary" href="{{route('author.show', [$author])}}">Show</a></td>
-            <td>    <a class="btn btn-secondary" href="{{route('author.edit', [$author])}}">Edit</a></td>
+         <td>{{ $shop->id }}</td>
+        <td>{{ $shop->title}}</td>
+        <td>{{ $shop->description }}</td>
+        <td>{{ $shop->email }}, {{ $shop->phone }}</td>
+        <td>{{ $shop->country }}</td>
+        <td>{{$shop->ShopCategories->count()}}</td>
+        {{-- <td>{{$shop->ShopProducts->count()}}</td> --}}
+        <td> <a class="btn btn-primary" href="{{route('shop.show', [$shop])}}">Show</a></td>
+            <td>    <a class="btn btn-secondary" href="{{route('shop.edit', [$shop])}}">Edit</a></td>
                 <td>
-                    <form method="POST" action="{{route('author.destroy', [$author]) }}">
+                    <form method="POST" action="{{route('shop.destroy', [$shop]) }}">
                 @csrf
                 <button class="btn btn-danger" type="submit">Delete</button>
                 {{-- <a type="submit" --}}
@@ -82,6 +88,6 @@
 
 </table>
 {{-- <p>{{$books->count() }} of {{$book->count()}} </p> --}}
-{!! $authors->appends(Request::except('page'))->render() !!}
+{!! $shops->appends(Request::except('page'))->render() !!}
 </div>
 @endsection

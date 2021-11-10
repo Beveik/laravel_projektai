@@ -30,7 +30,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view("category.create");
+        $shops=Shop::all()->sortBy('title', SORT_REGULAR, false);
+        return view("category.create", ['shops' => $shops]);
     }
 
     /**
@@ -41,6 +42,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        // $shops=Shop::all()->sortBy('title', SORT_REGULAR, true);
         $category= new Category;
         $category->title = $request->category_title;
         $category->description = $request->category_description;
@@ -72,7 +74,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view("category.edit", ["category"=> $category]);
+        $shops=Shop::all()->sortBy('title', SORT_REGULAR, false);
+        return view("category.edit", ["category"=> $category, "shops"=> $shops]);
     }
 
     /**

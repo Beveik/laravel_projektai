@@ -115,6 +115,7 @@ book
 <br>
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
+                                <input type="reset" value="Reset" class="btn btn-secondary">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Edit') }}
                                 </button>

@@ -21,18 +21,18 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('New book') }}</div>
+                <div class="card-header">{{ __('New category') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('book.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('category.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">
-                            <label for="book_title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
+                            <label for="category_title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
 
                             <div class="col-md-6">
-                                <input id="book_title" type="text" class="form-control @error('book_title') is-invalid @enderror " value="{{ old('book_title') }}" name="book_title" required autofocus>
-                                @error('book_title')
+                                <input id="category_title" type="text" class="form-control @error('category_title') is-invalid @enderror " value="{{old('category_title')}}" name="category_title" required autofocus>
+                                @error('category_title')
                                     <span role="alert" class="invalid-feedback">
                                         <strong>*{{$message}}</strong>
                                     </span>
@@ -41,13 +41,14 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="book_about" class="col-md-4 col-form-label text-md-right">{{ __('About') }}</label>
+                            <label for="category_description" class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
 
                             <div class="col-md-6">
                                 {{-- <input id="name" type="text" class="form-control" name="group_description"  required autofocus> --}}
-                                <textarea class="summernote" name="book_about" class="form-control @error('book_about') is-invalid @enderror" name="book_about" autofocus>
+                                <textarea class="summernote" name="category_description" class="form-control @error('category_description') is-invalid @enderror" name="category_description" autofocus>
+                                    {{-- {{$category->description}} --}}
                                 </textarea>
-                                @error('book_about')
+                                @error('category_description')
                                     <span role="alert" class="invalid-feedback">
                                         <strong>*{{$message}}</strong>
                                     </span>
@@ -55,41 +56,17 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="book_authorid" class="col-md-4 col-form-label text-md-right">{{ __('Author') }}</label>
+                            <label for="category_shopid" class="col-md-4 col-form-label text-md-right">{{ __('Shop') }}</label>
 
                             <div class="col-md-6">
                                 {{-- <input id="name" type="text" class="form-control" name="attendGroup_school_id" value="{{$attendGroup->school_id}}" required autofocus> --}}
-                                <select class="form-control" name="book_authorid" >
+                                <select class="form-control" name="category_shopid" >
 
 
-                                    @foreach($authors as $author)
-                                    <option value="{{$author->id}}">{{$author->name}} {{$author->surname}}</option>
+                                    @foreach($shops as $shop)
+                                    <option value="{{$shop->id}}">{{$shop->title}}</option>
                                     @endforeach
             </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="book_isbn" class="col-md-4 col-form-label text-md-right">{{ __('ISBN') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="book_isbn" type="text" class="form-control @error('book_isbn') is-invalid @enderror " value="{{ old('book_isbn') }}" name="book_isbn" required autofocus>
-                                @error('book_isbn')
-                                    <span role="alert" class="invalid-feedback">
-                                        <strong>*{{$message}}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="book_pages" class="col-md-4 col-form-label text-md-right">{{ __('Pages') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="book_pages" type="text" class="form-control @error('book_pages') is-invalid @enderror " value="{{ old('book_pages') }}" name="book_pages" required autofocus>
-                                @error('book_pages')
-                                    <span role="alert" class="invalid-feedback">
-                                        <strong>*{{$message}}</strong>
-                                    </span>
-                                @enderror
                             </div>
                         </div>
 
@@ -103,7 +80,7 @@
                             </div>
                         </div>
                     </form>
-                    <a class="btn btn-secondary " href="{{route('author.index')}}">Back</a><br>
+                    <a class="btn btn-secondary " href="{{route('category.index')}}">Back</a><br>
                 </div>
             </div>
         </div>

@@ -42,7 +42,7 @@ class ShopController extends Controller
     public function store(Request $request)
     {
         $shop= new Shop;
-        $shop->title = $request->shop_name;
+        $shop->title = $request->shop_title;
         $shop->description = $request->shop_description;
         $shop->email = $request->shop_email;
         $shop->phone = $request->shop_phone;

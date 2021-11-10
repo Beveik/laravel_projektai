@@ -14,25 +14,25 @@
         @endforeach
     @endif
 
-
+book
     {{-- kai if'as; jeigu klaida title egizsituoja, vykdomas kazkoks tai kodas --}}
     {{-- atsiranda kintamasis $message -  klaidos zinute --}}
 
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('New book') }}</div>
+                <div class="card-header">{{ __('Create product') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('book.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('product.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">
-                            <label for="book_title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
+                            <label for="product_title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
 
                             <div class="col-md-6">
-                                <input id="book_title" type="text" class="form-control @error('book_title') is-invalid @enderror " value="{{ old('book_title') }}" name="book_title" required autofocus>
-                                @error('book_title')
+                                <input id="product_title" type="text" class="form-control @error('product_title') is-invalid @enderror " value="{{ old('product_title') }}" name="product_title" required autofocus>
+                                @error('product_title')
                                     <span role="alert" class="invalid-feedback">
                                         <strong>*{{$message}}</strong>
                                     </span>
@@ -41,13 +41,14 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="book_about" class="col-md-4 col-form-label text-md-right">{{ __('About') }}</label>
+                            <label for="product_excerpt" class="col-md-4 col-form-label text-md-right">{{ __('Excerpt') }}</label>
 
                             <div class="col-md-6">
                                 {{-- <input id="name" type="text" class="form-control" name="group_description"  required autofocus> --}}
-                                <textarea class="summernote" name="book_about" class="form-control @error('book_about') is-invalid @enderror" name="book_about" autofocus>
+                                <textarea class="summernote" name="product_excerpt" class="form-control @error('product_excerpt') is-invalid @enderror" name="product_excerpt" autofocus>
+                                    {{old('product_excerpt')}}
                                 </textarea>
-                                @error('book_about')
+                                @error('product_excerpt')
                                     <span role="alert" class="invalid-feedback">
                                         <strong>*{{$message}}</strong>
                                     </span>
@@ -55,46 +56,65 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="book_authorid" class="col-md-4 col-form-label text-md-right">{{ __('Author') }}</label>
+                            <label for="product_description" class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
 
                             <div class="col-md-6">
-                                {{-- <input id="name" type="text" class="form-control" name="attendGroup_school_id" value="{{$attendGroup->school_id}}" required autofocus> --}}
-                                <select class="form-control" name="book_authorid" >
+                                {{-- <input id="name" type="text" class="form-control" name="group_description"  required autofocus> --}}
+                                <textarea class="summernote" name="product_description" class="form-control @error('product_description') is-invalid @enderror" name="product_description" autofocus>
+                                    {{old('product_description')}}
+                                </textarea>
+                                @error('product_description')
+                                    <span role="alert" class="invalid-feedback">
+                                        <strong>*{{$message}}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="product_categoryid" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" name="product_categoryid" >
 
 
-                                    @foreach($authors as $author)
-                                    <option value="{{$author->id}}">{{$author->name}} {{$author->surname}}</option>
+                                    @foreach($categories as $category)
+                                    <option value="{{$category->id}}" >{{$category->title}}</option>
                                     @endforeach
             </select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="book_isbn" class="col-md-4 col-form-label text-md-right">{{ __('ISBN') }}</label>
+                            <label for="product_price" type="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
 
                             <div class="col-md-6">
-                                <input id="book_isbn" type="text" class="form-control @error('book_isbn') is-invalid @enderror " value="{{ old('book_isbn') }}" name="book_isbn" required autofocus>
-                                @error('book_isbn')
+                                <input id="product_price" type="text" placeholder="00.00" class="form-control @error('product_price') is-invalid @enderror " value="{{ old('product_price')}}" name="product_price" required autofocus>
+                                <small>Format: 100.00</small><br><br>
+                                @error('product_price')
                                     <span role="alert" class="invalid-feedback">
                                         <strong>*{{$message}}</strong>
                                     </span>
                                 @enderror
                             </div>
                         </div>
+
                         <div class="form-group row">
-                            <label for="book_pages" class="col-md-4 col-form-label text-md-right">{{ __('Pages') }}</label>
+                            <label for="product_image" class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
 
                             <div class="col-md-6">
-                                <input id="book_pages" type="text" class="form-control @error('book_pages') is-invalid @enderror " value="{{ old('book_pages') }}" name="book_pages" required autofocus>
-                                @error('book_pages')
-                                    <span role="alert" class="invalid-feedback">
-                                        <strong>*{{$message}}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                                <input id="product_image" type="file" class="form-control" name="product_image">
+                            <br>
                         </div>
 
+                            @error('product_image')
+                                <span role="alert" class="invalid-feedback">
+                                    <strong>*{{$message}}</strong>
+                                </span>
+                            @enderror
+                        </div>
+<br>
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
+                                <input type="reset" value="Reset" class="btn btn-secondary">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Create') }}
                                 </button>
@@ -103,7 +123,7 @@
                             </div>
                         </div>
                     </form>
-                    <a class="btn btn-secondary " href="{{route('author.index')}}">Back</a><br>
+                    <a class="btn btn-secondary " href="{{route('product.index')}}">Back</a><br>
                 </div>
             </div>
         </div>

@@ -37,9 +37,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                       <li> <a class="nav-link" href="{{ route('product.index') }}">{{ __('Products') }}</a></li>
 
+                        <li> <a class="nav-link" href="{{ route('shop.index') }}">{{ __('Shops') }}</a></li>
+
+                        <li>  <a class="nav-link" href="{{ route('category.index') }}">{{ __('Categories') }}</a></li>
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
