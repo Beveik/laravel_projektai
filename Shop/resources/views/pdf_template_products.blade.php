@@ -1,24 +1,22 @@
-<h1>Books export </h1>
+<h1>Products export </h1>
 <table class="table table-striped">
     <tr>
         <th>ID</th>
-        <th>Title</th>
-        <th>ISBN</th>
-        <th>Pages</th>
-        <th>About</th>
-        <th>Author</th>
-        {{-- <th>Author's total books</th> --}}
+            <th>Title</th>
+            <th>Excerpt</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Category</th>
     </tr>
 
-    @foreach ($books as $book)
+    @foreach ($products as $product)
         <tr>
-            <td> {{$book->id }}</td>
-            <td> {{$book->title }}</td>
-            <td> {{$book->isbn }}</td>
-            <td> {{$book->pages }}</td>
-            <td> {{$book->about }}</td>
-            <td> {{$book->BookAuthor->name }} {{$book->BookAuthor->surname }}</td>
-            {{-- <td> {{$author->AuthorBooks->count() }}</td> --}}
+            <td> {{$product->id }}</td>
+            <td> {{$product->title }}</td>
+            <td> {{$product->excerpt }}</td>
+            <td> {{$product->description }}</td>
+            <td> {{$product->price }}</td>
+            <td> {{$product->ProductCategory->title}} </td>
         </tr>
     @endforeach
 

@@ -14,18 +14,18 @@
 
         <button class="btn btn-primary" type="submit">Search</button>
     </form>
-    {{-- <form action="{{route('category.search')}}" method="GET">
+    <form action="{{route('category.search')}}" method="GET">
         @csrf
-         <select class="col-md-2 col-form-label text-md-left form-control" name="task_type_id">
-            <option value="404">All types</option>
-            @foreach($types as $type)
-            <option value="{{$type->id}}"
-                @if($type->id==$task->type_id) selected @endif
-                >{{ $type->title}}</option>
+         <select class="col-md-2 col-form-label text-md-left form-control" id="category_shop_id" name="category_shop_id">
+            <option value="404">All shops</option>
+            @foreach($shops as $shop)
+            <option value="{{$shop->id}}"
+                @if($shop->id==$category->shop_id) selected @endif
+                >{{ $shop->title}}</option>
             @endforeach
 </select>
 
-<select class="col-md-2 col-form-label text-md-left form-control" name="pagination">
+{{-- <select class="col-md-2 col-form-label text-md-left form-control" name="pagination">
     @foreach($paginationSettings as $paginationSetting)
     @if ($paginationSetting->visible==1)
     <option value="{{$paginationSetting->value}}"
@@ -33,10 +33,10 @@
         >{{$paginationSetting->title}}</option>
         @endif
     @endforeach
-</select>
+</select> --}}
 
 <button class="btn btn-primary" type="submit">Filter</button>
-</form> --}}
+</form>
 <br>
 
 

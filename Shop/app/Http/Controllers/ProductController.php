@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
-
+use PDF;
 use App\Models\Shop;
 use Illuminate\Http\Request;
+use DB;
+
 
 class ProductController extends Controller
 {
@@ -15,12 +17,24 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Product $product)
     {
-        // $products=Product::all();
+
         $categories=Category::all();
         $products = Product::query()->sortable()->orderBy( 'id', 'asc')->paginate(15);
-         return view('product.index', ['products' => $products, 'categories'=>$categories]);
+
+        // $filterpdf=$request->product_category_id;
+        // $searchpdf=$request->search;
+// $max=Product::max('price');
+// $min=Product::min('price');
+$productfilter=$request->product_category_id;
+
+if ( isset($productfilter) && $productfilter!=404 ){
+    $products = Product::query()->sortable()->where('category_id', $productfilter)->paginate(15);
+        } elseif ($productfilter==404){
+            $products = Product::query()->sortable()->orderBy( 'id', 'asc')->paginate(15);
+        }
+         return view('product.index', ['products' => $products, 'product' => $product, 'categories'=>$categories, 'productfilter'=>$productfilter, 'filterpdf' => $productfilter]);
 
     }
 
@@ -118,15 +132,35 @@ class ProductController extends Controller
         return redirect()->route("product.index")->with('success_message','Product is deleted successfully.');
 
     }
-    public function generatePDF(Category $category) {
+    public function generatePDF(Request $request) {
+        $categories=Category::all();
+        $products=Product::all();
 
-        //1. Pasiimti visus duomenis x
-        // 2. kazkokiu panaudoti pdf biblioteka
-        // 3. sugeneruoti atsisiuntimo nuoroda
+$search = $request->search;
 
-        $products = Product::all();
-        // $books_count = $author->AuthorBooks;
-        view()->share('products', $products,  'category', $category);
+$productfilter=$request->product_category_id;
+
+if ( isset($productfilter) && $productfilter!=404 ){
+    $products = Product::query()->sortable()->where('category_id', $productfilter)->get();
+        } elseif ($productfilter==404){
+            $products = Product::query()->sortable()->orderBy( 'id', 'asc');
+        }
+
+if (isset($search) && !empty($search)){
+$products = Product::
+//    ->join('categories','products.category_id', 'categories.id')
+query()
+->sortable()
+// ->select('products.title as productTitle','categories.title as categoryTitle')
+->where('title', 'LIKE', "%{$search}%")
+// ->orWhere('categories.title', 'LIKE', "%{$search}%")
+->get();
+} elseif (empty($search)) {
+$products = Product::query()->sortable()->orderBy( 'id', 'asc');
+
+}
+
+        view()->share('products', $products,  'categories', $categories);
 
         $pdf = PDF::loadView('pdf_template_products', $products);
 
@@ -139,5 +173,25 @@ class ProductController extends Controller
         $pdf = PDF::loadView("pdf_template_product", $product);
         return $pdf->download("product".$product->id.".pdf");
 
+    }
+    public function search(Request $request, Product $product) {
+        $categories=Category::all();
+$search = $request->search;
+if (isset($search) && !empty($search)){
+$products = Product::
+//    ->join('categories','products.category_id', 'categories.id')
+query()
+->sortable()
+// ->select('products.title as productTitle','categories.title as categoryTitle')
+->where('title', 'LIKE', "%{$search}%")
+// ->orWhere('categories.title', 'LIKE', "%{$search}%")
+->paginate(15);
+} elseif (empty($search)) {
+$products = Product::query()->sortable()->orderBy( 'id', 'asc')->paginate(15);
+}
+return view("product.search",['categories'=> $categories,'product'=> $product, 'products'=> $products, 'searchpdf'=>$search]);
+
+
+        // return view("product.search",['categories'=> $categories,'product'=> $product, 'products'=> $products, 'max'=> $max, 'min'=> $min]);
     }
 }

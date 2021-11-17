@@ -1,26 +1,22 @@
 
-<h2>Information about book {{$book->title}}</h2>
+<h2>Information about category: {{$category->title}}</h2>
 
 <table class="styled-table">
     <thead>
         <tr>
             <th>ID</th>
-            <th>Title</th>
-            <th>ISBN</th>
-            <th>Pages</th>
-            <th>About</th>
-            <th>Author</th>
+            <th>Description</th>
+            <th>Shop</th>
+            <th>Total products</th>
         </tr>
     </thead>
 
     <tbody>
         <tr>
-            <td> {{$book->id }}</td>
-            <td> {{$book->title }}</td>
-            <td> {{$book->isbn }}</td>
-            <td> {{$book->pages }}</td>
-            <td> {{$book->about }}</td>
-            <td> {{$book->BookAuthor->name}} {{$book->BookAuthor->surname}} </td>
+            <td> {{$category->id }}</td>
+            <td> {{$category->title }}</td>
+            <td> {{$category->description }}</td>
+            <td> {{$category->CategoryShop->title}}</td>
         </tr>
     <tbody>
 </table>

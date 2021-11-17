@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Shop;
+use PDF;
 
 class CategoryController extends Controller
 {
@@ -15,11 +16,12 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Category $category)
     {
+        $shops=Shop::all();
         $products=Product::all();
         $categories=Category::query()->sortable()->orderBy( 'id', 'asc')->paginate(15);
-        return view("category.index", ["categories"=>$categories,  "products"=>$products]);
+        return view("category.index", ["categories"=>$categories, "products"=>$products, "shops"=>$shops, "category"=>$category]);
 
     }
 
@@ -136,4 +138,42 @@ class CategoryController extends Controller
         return $pdf->download("category".$category->id.".pdf");
 
     }
+    public function search(Request $request, Category $category) {
+        // $paginationSettings=PaginationSetting::all();
+        $categories=Category::all();
+        $shops=Shop::all();
+      $search = $request->search;
+$categoryfilter=$request->category_shop_id;
+// $message="";
+// $pagination = $request->pagination;
+// $category_count = $categories -> count();
+
+// if ($pagination==1) {
+//     $pagination=$task_count;
+// }
+//     if (isset($pagination)  && isset($typefilter) && $typefilter!=404 ){
+// $tasks = Task::sortable()->where('type_id', $typefilter)->paginate($pagination);
+//     } else if ($typefilter==404){
+//         $tasks = Task::orderBy( 'id', 'asc')->paginate($pagination);
+//     }
+if (isset($categoryfilter) && $categoryfilter!=404 ){
+    $categories = Category::sortable()->where('shop_id', $categoryfilter)->paginate(15);
+        } else if ($categoryfilter==404){
+            $categories = Category::orderBy( 'id', 'asc')->paginate(15);
+        }
+ if (isset($search) && !empty($search)){
+    // $categories = Category::query()->sortable()->where('title', 'LIKE', "%{$search}%")->orWhere('description', 'LIKE', "%{$search}%")->paginate(15);
+    $categories = Category::query()->sortable()->join('shops','categories.shop_id','shops.id')
+    ->where('categories.title', 'LIKE', "%{$search}%")
+    ->orWhere('shops.title', 'LIKE', "%{$search}%")
+    ->paginate(15);
+ } elseif (empty($search)) {
+    $categories = Category::orderBy( 'id', 'asc')->paginate(15);
+    // return view("category.search",['categories'=> $categories,'category'=> $category, 'shops'=> $shops])->with('danger_message','Search is empty.');
+    // $message="with('danger_message','Search is empty.')";
+ }
+    // }
+        return view("category.search",['categories'=> $categories,'category'=> $category, 'shops'=> $shops]);
+    }
+
 }
