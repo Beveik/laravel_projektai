@@ -14,7 +14,7 @@
         @endforeach
     @endif
 
-book
+
     {{-- kai if'as; jeigu klaida title egizsituoja, vykdomas kazkoks tai kodas --}}
     {{-- atsiranda kintamasis $message -  klaidos zinute --}}
 

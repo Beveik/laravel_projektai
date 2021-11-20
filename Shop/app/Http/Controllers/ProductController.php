@@ -7,7 +7,7 @@ use App\Models\Category;
 use PDF;
 use App\Models\Shop;
 use Illuminate\Http\Request;
-use DB;
+use Validator;
 
 
 class ProductController extends Controller
@@ -59,20 +59,75 @@ if ( isset($productfilter) && $productfilter!=404 ){
      */
     public function store(Request $request)
     {
-        $categories=Category::all()->sortBy('title', SORT_REGULAR, true);
-        $product= new Product;
+        // $categories=Category::all()->sortBy('title', SORT_REGULAR, true);
+        // $product= new Product;
 
-        $product->title = $request->product_title;
-        $product->excerpt = $request->product_excerpt;
-        $product->description = $request->product_description;
-        $product->price = $request->product_price;
-        $product->image = $request->product_image;
-        $product->category_id = $request->product_categoryid;
-        $product ->save();
+        // $product->title = $request->product_title;
+        // $product->excerpt = $request->product_excerpt;
+        // $product->description = $request->product_description;
+        // $product->price = $request->product_price;
+        // $product->image = $request->product_image;
+        // $product->category_id = $request->product_categoryid;
+        // $product ->save();
             // return redirect()->route("task.index");
-            return redirect()->route("product.index", ["categories"=>$categories])->with('success_message','Product is created.');
+            // return redirect()->route("product.index", ["categories"=>$categories])->with('success_message','Product is created.');
+            $input = [
+                'productTitle' => $request->productTitle,
+                'productExcerpt' => $request->productExcerpt,
+                'productDescription' => $request->productDescription,
+                'productPrice' => $request->productPrice,
+                'productImage' => $request->productImage,
+                'productCategory' => $request->productCategory,
+            ];
 
-    }
+            $rules = [
+                'productTitle' => 'required|min:3',
+                'productExcerpt' => 'required|min:3',
+                'productDescription' => 'min:8'
+            ];
+
+            $validator = Validator::make($input, $rules);
+
+            if($validator->passes()) {
+                $product= new Product;
+                $product->title = $request->productTitle;
+                $product->excerpt = $request->productExcerpt;
+                $product->description = $request->productDescription;
+                $product->price = $request->productPrice;
+                $product->image = $request->productImage;
+                $product->category_id = $request->productCategory;
+                $product->save();
+
+                $success = [
+                    'message' => '[Back-End] Product added successfully',
+                    'productID' => $product->id,
+                    'productTitle' => $product->title,
+                    'productExcerpt' => $product->excert,
+                    'productDescription' => $product->description,
+                    'productPrice' => $product->price,
+                    'productImage' => $product->image,
+                    'productCategory' => $product->category_id,
+                ];
+
+                $success_json = response()->json($success);
+
+                return $success_json;
+
+            }
+
+            $error = [
+                'error' => $validator->messages()->get("*")
+            ];
+
+            $error_json = response()->json($error);
+
+            return $error_json;
+
+            // return "products added successfully";
+
+        }
+
+
 
     /**
      * Display the specified resource.
