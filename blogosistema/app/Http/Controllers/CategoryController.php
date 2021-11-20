@@ -44,11 +44,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-       //ivesti kompanija be klientu x
-        //ivesti kompanja su vienu klientu x
-        //ivesti kompanija su n+1 klientu x
 
-        $postsNew = $request->postsNew; //checkbox Add Clients?
+        $postsNew = $request->postsNew;
         $category = new Category;
         $category->title = $request->categoryTitle;
         $category->description = $request->categoryDescription;
@@ -56,11 +53,8 @@ class CategoryController extends Controller
 
         $category->save();
 
-        // $kiekNorimeIvesti = 1;
-        // $request->clientName  - //kiek elementu turi sis masyvas?
         $postsInputCount = count($request->postTitle);
-        // $clientsInputCount = count($request->clientDescription);
-        // $clientsInputCount = count($request->clientAddress);
+
 
 
         if($postsNew == "1") {
@@ -127,7 +121,6 @@ class CategoryController extends Controller
 
         if ($category_count==0) {
         $category->delete();
-        // return redirect()->route("type.index");
         return redirect()->route("category.index")->with('success_message','category is deleted.');
     } else {
         return redirect()->route("category.index")->with('danger_message','category has products.');

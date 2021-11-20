@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -54,7 +53,7 @@ if ( isset($postfilter) && $postfilter!=404 ){
     public function store(Request $request)
     {
         $categoryNew = $request->categoryNew;
-        if($categoryNew == "1") { // koks kintamojo tipas ateina is checkbox jei jis pazymetas? 1 tekstas
+        if($categoryNew == "1") {
             $category = new Category;
             $category->title =  $request->categoryTitle;
             $category->description = $request->categoryDescription;
@@ -128,14 +127,6 @@ if ( isset($postfilter) && $postfilter!=404 ){
     }
     public function destroyAjax(Post $post)
     {
-        //1. IStriname klienta
-        //2. Suskaiciuojame kiek klientu liko kompanijai
-        //3. Likusiu klientu kieki perduodame i JSON zinute
-        //4. Per Javascript, jei klientu kiekis ateina 0, remove() - table, append() - alert
-        // id
-        //name
-        //surname
-        //company_id
 
         $category_id = $post->category_id;
 
@@ -144,7 +135,6 @@ if ( isset($postfilter) && $postfilter!=404 ){
         $postsLeft = Post::where('category_id', $category_id)->get() ;//masyvas su visais klientais, priklausanciais kompanijai
         $posts_count = $postsLeft->count();
 
-        //sekmes nesekmes zinute
         $success = [
             "success" => $post->title." deleted successfuly",
             "posts_count" => $posts_count
