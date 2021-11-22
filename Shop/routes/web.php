@@ -28,6 +28,8 @@ Route::prefix('products')->group(function () {
     Route::get('search', 'App\Http\Controllers\ProductController@search')->name('product.search')->middleware("auth");
     Route::get('/pdf', 'App\Http\Controllers\ProductController@generatePDF')->name('products.pdf')->middleware("auth");
     Route::get('pdfProduct/{product}','App\Http\Controllers\ProductController@generateProduct')->name('product.pdfproduct')->middleware("auth");
+    Route::get('validationcreate', 'App\Http\Controllers\ProductController@validationcreate')->name('product.validationcreate');
+    Route::post('validationstore', 'App\Http\Controllers\ProductController@validationstore')->name('product.validationstore');
 });
 Route::prefix('categories')->group(function () {
 
