@@ -5,18 +5,16 @@
 
 <div class="container">
 
-    @if ($errors->any())
-    {{-- klaidu bus daugau nei 1 --}}
-
-        @foreach ($errors->all() as $error)
-        <div class="alert alert-danger">
-            <ul>
-                <li>{{$error}}</li>
-            </ul>
-        </div>
-        @endforeach
-    @endif
-
+    @if(session()->has('success_message'))
+    <div class="alert alert-success">
+        {{session()->get("success_message")}}
+    </div>
+@endif
+@if(session()->has('danger_message'))
+<div class="alert alert-danger">
+    {{session()->get("danger_message")}}
+</div>
+@endif
 
     <br>
 

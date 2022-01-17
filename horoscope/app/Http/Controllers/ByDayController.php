@@ -230,12 +230,12 @@ for ($j = 0; $j < $s; $j++) {
             continue;
         } else {
 
-        return redirect()->route("byday.index")->with('danger_message','Data already exist.');
+        return redirect()->route("zodiac.index")->with('danger_message','Data already exist.');
 }
     }
 
 }
-            return redirect()->route("byday.index")->with('success_message','New data is added.');
+            return redirect()->route("zodiac.index")->with('success_message','New data is added.');
     }
 
     /**

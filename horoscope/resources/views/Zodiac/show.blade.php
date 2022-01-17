@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
 
 <div class="container">
@@ -51,7 +51,7 @@
 <tr><th>January</th>
  @foreach ($byDays as $byDay)
  @if ($byDay->month==1)
- <td><div class="col-md-10 day_color" style="width:25px; display:inline-block; height:25px; text-align:center; background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
+ <td><div class="col-md-10 day_color" style="background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
  </td>
  @endif
 @endforeach
@@ -59,7 +59,7 @@
 <tr><th>February</th>
     @foreach ($byDays as $byDay)
     @if ($byDay->month==2)
-    <td><div class="col-md-10 day_color" style="width:25px; display:inline-block; height:25px; text-align:center; background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
+    <td><div class="col-md-10 day_color" style=" background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
     </td>
     @endif
    @endforeach
@@ -67,7 +67,7 @@
    <tr><th>March</th>
     @foreach ($byDays as $byDay)
     @if ($byDay->month==3)
-    <td><div class="col-md-10 day_color" style="width:25px; display:inline-block; height:25px; text-align:center; background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
+    <td><div class="col-md-10 day_color" style=" background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
     </td>
     @endif
    @endforeach
@@ -75,7 +75,7 @@
    <tr><th>April</th>
        @foreach ($byDays as $byDay)
        @if ($byDay->month==4)
-       <td><div class="col-md-10 day_color" style="width:25px; display:inline-block; height:25px; text-align:center; background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
+       <td><div class="col-md-10 day_color" style=" background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
        </td>
        @endif
       @endforeach
@@ -83,7 +83,7 @@
       <tr><th>May</th>
         @foreach ($byDays as $byDay)
         @if ($byDay->month==5)
-        <td><div class="col-md-10 day_color" style="width:25px; display:inline-block; height:25px; text-align:center; background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
+        <td><div class="col-md-10 day_color" style=" background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
         </td>
         @endif
        @endforeach
@@ -91,7 +91,7 @@
        <tr><th>June</th>
            @foreach ($byDays as $byDay)
            @if ($byDay->month==6)
-           <td><div class="col-md-10 day_color" style="width:25px; display:inline-block; height:25px; text-align:center; background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
+           <td><div class="col-md-10 day_color" style=" background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
            </td>
            @endif
           @endforeach
@@ -99,7 +99,7 @@
           <tr><th>July</th>
             @foreach ($byDays as $byDay)
             @if ($byDay->month==7)
-            <td><div class="col-md-10 day_color" style="width:25px; display:inline-block; height:25px; text-align:center; background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
+            <td><div class="col-md-10 day_color" style=" background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
             </td>
             @endif
            @endforeach
@@ -107,7 +107,7 @@
            <tr><th>August</th>
                @foreach ($byDays as $byDay)
                @if ($byDay->month==8)
-               <td><div class="col-md-10 day_color" style="width:25px; display:inline-block; height:25px; text-align:center; background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
+               <td><div class="col-md-10 day_color" style="background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
                </td>
                @endif
               @endforeach
@@ -115,7 +115,7 @@
               <tr><th>September</th>
                 @foreach ($byDays as $byDay)
                 @if ($byDay->month==9)
-                <td><div class="col-md-10 day_color" style="width:25px; display:inline-block; height:25px; text-align:center; background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
+                <td><div class="col-md-10 day_color" style="background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
                 </td>
                 @endif
                @endforeach
@@ -123,7 +123,7 @@
                <tr><th>October</th>
                    @foreach ($byDays as $byDay)
                    @if ($byDay->month==10)
-                   <td><div class="col-md-10 day_color" style="width:25px; display:inline-block; height:25px; text-align:center; background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
+                   <td><div class="col-md-10 day_color" style=" background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
                    </td>
                    @endif
                   @endforeach
@@ -131,7 +131,7 @@
                   <tr><th>November</th>
                     @foreach ($byDays as $byDay)
                     @if ($byDay->month==11)
-                    <td><div class="col-md-10 day_color" style="width:25px; display:inline-block; height:25px; text-align:center; background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
+                    <td><div class="col-md-10 day_color" style=" background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
                     </td>
                     @endif
                    @endforeach
@@ -139,7 +139,7 @@
                    <tr><th>December</th>
                        @foreach ($byDays as $byDay)
                        @if ($byDay->month==12)
-                       <td><div class="col-md-10 day_color" style="width:25px; display:inline-block; height:25px; text-align:center; background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
+                       <td><div class="col-md-10 day_color" style=" background-color:{{$byDay->DayScore->color_code}};"> {{ $byDay->day }} </div>
                        </td>
                        @endif
                       @endforeach
@@ -148,7 +148,7 @@
 <br>
 <h4 style="display:inline-block;">Day scores:  </h4>
     @foreach ($newScores as $newScore)
-    <div class="cube" style="width:25px; display:inline-block; height:25px; background-color:{{$newScore->color_code}}; text-align:center;">{{ $newScore->score }}</div>
+    <div class="cube" style=" background-color:{{$newScore->color_code}};">{{ $newScore->score }}</div>
     <div class="text" style="display:inline-block;">  - {{ $newScore->description }} </div>
     @endforeach()
     <br><br>
