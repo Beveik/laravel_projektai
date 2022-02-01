@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WeatherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/fetch', [WeatherController::class, 'fetch']);
+Route::post('/storeTemperature', [WeatherController::class, 'storeTemperature']);
+Route::post('weathers', 'App\Http\Controllers\WeatherController@storeTemperature');

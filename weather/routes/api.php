@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JWTController;
+use App\Http\Controllers\WeatherController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,3 +26,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function($router) {
     Route::post('/refresh', [JWTController::class, 'refresh']);
     Route::post('/profile', [JWTController::class, 'profile']);
 });
+
+Route::post('/fetch', [WeatherController::class, 'fetch']);
+Route::post('/storeTemperature', [WeatherController::class, 'storeTemperature']);
+
