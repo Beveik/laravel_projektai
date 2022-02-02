@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => 'api', 'prefix' => 'auth'], function($router) {
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('/register', [JWTController::class, 'register']);
     Route::post('/login', [JWTController::class, 'login']);
     Route::post('/logout', [JWTController::class, 'logout']);
@@ -28,8 +28,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function($router) {
     Route::post('/profile', [JWTController::class, 'profile']);
 });
 
-// Route::group(['prefix' => 'api'], function() {
-    Route::post('/fetch', [WeatherController::class, 'fetch']);
-    Route::post('/storeTemperature', [WeatherController::class, 'storeTemperature']);
-    Route::get('/index', [WeatherController::class, 'index']);
-// });
+Route::post('/fetch', [WeatherController::class, 'fetch']);
+Route::post('/storeTemperature', [WeatherController::class, 'storeTemperature']);
+Route::get('/index', [WeatherController::class, 'index']);
+

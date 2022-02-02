@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Cache;
 
 class WeatherController extends Controller
 {
-    public function index() {
-        $weathers = Cache::remember('weathers', 22*60, function() {
-            // $weathers = Weather::all();
+    public function index()
+    {
+        $weathers = Cache::remember('weathers', 22 * 60, function () {
             return Weather::all();
         });
         return response()->json($weathers);
@@ -27,7 +27,7 @@ class WeatherController extends Controller
 
         $city = request('city');
         $response = Http::get('api.openweathermap.org/data/2.5/weather?q=' . $city . '&units=metric&appid=d3e07c050f1965ecadfacc40181285e0');
-        $getTemperature = json_decode($response, true);
+        $getTemperature = json_decode($response, true); // true - paverčia į masyvą
 
         $temperature = $getTemperature["main"]["temp"];
         $weather = $getTemperature["weather"][0]["main"];
@@ -45,16 +45,11 @@ class WeatherController extends Controller
     }
     public function storeTemperature()
     {
-
         $city = 'Vilnius';
-
         $response = Http::get('api.openweathermap.org/data/2.5/weather?q=' . $city . '&units=metric&appid=d3e07c050f1965ecadfacc40181285e0');
-
         $getTemperature = json_decode($response, true);
-
         $temperature = $getTemperature["main"]["temp"];
         $name = $getTemperature["name"];
-
         Weather::create([
             'city' => $name,
             'temperature' => $temperature,

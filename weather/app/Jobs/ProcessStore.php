@@ -40,7 +40,7 @@ class ProcessStore implements ShouldQueue
 
         // $city = 'Vilnius';
 
-        $response = Http::get('api.openweathermap.org/data/2.5/weather?q=' .$this->city. '&units=metric&appid=d3e07c050f1965ecadfacc40181285e0');
+        $response = Http::get('api.openweathermap.org/data/2.5/weather?q=' . $this->city . '&units=metric&appid=d3e07c050f1965ecadfacc40181285e0');
 
         $getTemperature = json_decode($response, true);
 
