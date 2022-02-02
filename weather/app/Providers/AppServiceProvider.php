@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use App\Jobs\ProcessStore;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // $this->app->bindMethod([ProcessStore::class, 'handle'], function ($job, $app) {
+        //     return $job->handle($app->make(AudioProcessor::class));
+        // });
     }
 }

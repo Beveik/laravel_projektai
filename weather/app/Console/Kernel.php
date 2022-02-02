@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        //atnaujina kas pasirinktą laiką, localhost reikia panaudoti komandą: php artisan schedule:run
+        $schedule->call('App\Http\Controllers\WeatherController@storeTemperature')->everyMinute();
     }
 
     /**
